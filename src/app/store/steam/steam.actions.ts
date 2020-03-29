@@ -6,7 +6,6 @@ export class SetCredentialsAction implements Action {
   public readonly type = types.setCredentials;
 
   constructor(private credentials: SteamCredentials) {
-    console.log(credentials);
   }
 
   getCredentials() {

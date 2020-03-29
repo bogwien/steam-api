@@ -5,22 +5,24 @@ import { State } from '../../store/steam/steam.state';
 import { Observable } from 'rxjs';
 import { selectCredentials } from '../../store/steam/steam.selectors';
 import { Router } from '@angular/router';
+import { SteamService } from '../../services/steam.service';
 
 @Component({
   selector: 'app-summary',
   templateUrl: './summary.component.html'
 })
 export class SummaryComponent implements OnInit {
-  public credentials: Observable<SteamCredentials> = this.store.pipe(select(selectCredentials));
 
-  constructor(private store: Store<State>, private router: Router) {
+  constructor(private router: Router, private service: SteamService) {
   }
 
   ngOnInit(): void {
-    this.credentials.subscribe(value => {
+    this.service.credentials.subscribe(value => {
       if (!value || !value.steamAccountId || !value.steamApiKey) {
         this.router.navigate(['']);
       }
     });
+
+    this.service.getPlayerSummaries();
   }
 }

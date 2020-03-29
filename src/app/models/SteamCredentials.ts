@@ -1,4 +1,4 @@
 export interface SteamCredentials {
-  steamApiKey: String | null;
-  steamAccountId: String | null;
+  steamApiKey: string | null;
+  steamAccountId: string | null;
 }
