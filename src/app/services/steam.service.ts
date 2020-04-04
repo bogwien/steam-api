@@ -5,6 +5,7 @@ import { SteamCredentials } from '../models/SteamCredentials';
 import { Observable } from 'rxjs';
 import { selectCredentials } from '../store/steam/steam.selectors';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 export class SteamService {
   public credentials: Observable<SteamCredentials> = this.store.pipe(select(selectCredentials));
   private readonly api = {
-    host: 'api.steampowered.com',
-    varsion: 'v0002',
-    protocol: 'https',
     actions: {
       summary: {
         interface: 'ISteamUser',
@@ -25,23 +23,20 @@ export class SteamService {
 
   constructor(private store: Store<State>, public httpClient: HttpClient) { }
 
-  private getUrl(action: { interface: string, method: string }) {
-    return `${this.api.protocol}://${this.api.host}/${action.interface}/${action.method}/${this.api.varsion}/`;
-  }
-
   public getPlayerSummaries() {
     return this.credentials.subscribe((credentials: SteamCredentials) => this.loadPlayerSummaries(credentials));
   }
 
   private loadPlayerSummaries({ steamApiKey, steamAccountId  }: SteamCredentials) {
     const action = this.api.actions.summary;
-    const url = this.getUrl(action);
+    const url = `${environment.api.host}/${environment.api.baseUri}/steam/`;
 
     const params = new HttpParams({
       fromObject: {
         key: steamApiKey,
         steamids: steamAccountId,
-        format: 'json'
+        format: 'json',
+        ...action
       }
     });
 

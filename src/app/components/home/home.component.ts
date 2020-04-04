@@ -30,6 +30,14 @@ export class HomeComponent {
     return this.form.controls.steamAccountId.errors;
   }
 
+  isSteamApiKeyError() {
+    return this.getSteamApiKeyErrors() && this.getSteamApiKeyErrors().required;
+  }
+
+  isSteamAccountIdError() {
+    return this.getSteamAccountIdErrors() && this.getSteamAccountIdErrors().required;
+  }
+
   onSubmit() {
     if (this.form.invalid) {
       return;

@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\components",
+    "\\src\\app\\components\\home",
+    "\\src\\app\\components\\summary",
+    "\\src\\app\\services",
+    "\\src\\app\\store",
+    "\\src\\app\\store\\steam"
+  ],
+  "SelectedNode": "\\src\\app\\services\\steam.service.ts",
+  "PreviewInSolutionExplorer": false
+}
