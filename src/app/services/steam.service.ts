@@ -25,7 +25,7 @@ export class SteamService {
   public async getPlayerSteamId(vanityurl: string): Promise<string> {
     const key: string = this.getKey();
     
-    return await this.loadPlayerSteamId(key, vanityurl);
+    return await this.loadPlayerSteamId(key, vanityurl.trim());
   }
 
   private async loadPlayerSteamId(key: string, vanityurl: string): Promise<string> {
@@ -33,7 +33,11 @@ export class SteamService {
 
     const params = new HttpParams({fromObject: {key, vanityurl}});
 
-    const result = await this.httpClient.get<{data: {steamid: string}}>(url, {params, responseType: 'json'}).toPromise();
+    const result = await this.httpClient.get<{data: {steamid: string, success: number}}>(url, {params, responseType: 'json'}).toPromise();
+
+    if (result.data.success !== 1) {
+      return null;
+    }
 
     return result.data.steamid;
   }

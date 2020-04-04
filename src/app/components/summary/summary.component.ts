@@ -39,13 +39,21 @@ export class SummaryComponent implements OnInit {
       return;
     }
 
-    this.players = await this.loadPlayers(this.getUsernameControl().value);
+    const usernames = this.getUsernameControl().value.split(',');
+    this.players = await this.loadPlayers(
+      usernames.filter((value: string) => value && !(/^\d+$/.test(value))),
+      usernames.filter((value: string) => value && /^\d+$/.test(value))
+    );
   }
 
-  private async loadPlayers(username: string): Promise<Array<Player>> {
-    const steamId: string = await this.service.getPlayerSteamId(username);
+  private async loadPlayers(usernames: Array<string>, ids: Array<string> = []): Promise<Array<Player>> {
+    const asyncSteamIdLoader = async (username: string): Promise<string> => this.service.getPlayerSteamId(username);
+    const asyncAllLoader = async (usernames: Array<string>): Promise<Array<string>> => Promise.all(usernames.map(asyncSteamIdLoader));
 
-    const players = await this.service.getPlayersSummaries([steamId]);
+    const steamIds: Array<string> = await asyncAllLoader(usernames);
+    const allSteamIds = ids.concat(steamIds.filter(id => !!id))
+
+    const players = await this.service.getPlayersSummaries(allSteamIds);
 
     return players;
   }
