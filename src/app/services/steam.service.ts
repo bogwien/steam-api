@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { selectKey } from '../store/steam/steam.selectors';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import Player from '../models/player';
 
 @Injectable({
   providedIn: 'root'
@@ -37,19 +38,19 @@ export class SteamService {
     return result.data.steamid;
   }
 
-  public async getPlayersSummaries(steamids: Array<string>): Promise<{players: Array<Object>}> {
+  public async getPlayersSummaries(steamids: Array<string>): Promise<Array<Player>> {
     const key: string = this.getKey();
 
     return await this.loadPlayersSummaries(key, steamids.join(','));
   }
 
-  private async loadPlayersSummaries(key: string, steamids: string): Promise<{players: Array<Object>}> {
+  private async loadPlayersSummaries(key: string, steamids: string): Promise<Array<Player>> {
     const url = `${environment.api.host}/${environment.api.baseUri}/steam/player-summaries`;
 
     const params = new HttpParams({fromObject: {key, steamids}});
 
-    const result = await this.httpClient.get<{data: {players: Array<Object>}}>(url, {params, responseType: 'json'}).toPromise();
+    const result = await this.httpClient.get<{data: {players: Array<Player>}}>(url, {params, responseType: 'json'}).toPromise();
 
-    return result.data;
+    return result.data.players;
   }
 }

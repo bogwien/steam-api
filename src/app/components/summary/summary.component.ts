@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SteamService } from '../../services/steam.service';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
+import Player from '../../models/player';
 
 @Component({
   selector: 'app-summary',
@@ -9,6 +10,7 @@ import { Validators, FormGroup, FormControl } from '@angular/forms';
 })
 export class SummaryComponent implements OnInit {
   username: string;
+  players: Array<Player>;
 
   form: FormGroup = new FormGroup({
     username: new FormControl(this.username, Validators.required),
@@ -32,19 +34,19 @@ export class SummaryComponent implements OnInit {
     return this.getUsernameControl().errors && this.getUsernameControl().errors.required;
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.form.invalid) {
       return;
     }
 
-    this.loadPlayer(this.getUsernameControl().value);
+    this.players = await this.loadPlayers(this.getUsernameControl().value);
   }
 
-  loadPlayer(username: string) {
-    this.service.getPlayerSteamId(username).then((steamid: string) => {
-      this.service.getPlayersSummaries([steamid]).then(data => {
-        console.log(data);
-      });
-    });
+  private async loadPlayers(username: string): Promise<Array<Player>> {
+    const steamId: string = await this.service.getPlayerSteamId(username);
+
+    const players = await this.service.getPlayersSummaries([steamId]);
+
+    return players;
   }
 }
