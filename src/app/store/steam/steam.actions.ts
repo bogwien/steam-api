@@ -13,4 +13,15 @@ export class SetCredentialsAction implements Action {
   }
 }
 
-export type Actions = SetCredentialsAction;
+export class SetSteamIdsToCredentialsAction implements Action {
+  public readonly type = types.setSteamIdsToCredentials;
+
+  constructor(private steamids: string) {
+  }
+
+  getSteamIds() {
+    return this.steamids;
+  }
+}
+
+export type Actions = SetCredentialsAction | SetSteamIdsToCredentialsAction;

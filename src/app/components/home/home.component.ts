@@ -12,22 +12,22 @@ import { SetCredentialsAction } from '../../store/steam/steam.actions';
   templateUrl: './home.component.html'
 })
 export class HomeComponent {
-  credentials: SteamCredentials = { steamApiKey: null, steamAccountId: null};
+  credentials: SteamCredentials = { key: null, vanityurl: null, steamids: null};
 
   form: FormGroup = new FormGroup({
-    steamApiKey: new FormControl(this.credentials.steamApiKey, Validators.required),
-    steamAccountId: new FormControl(this.credentials.steamAccountId, Validators.required)
+    key: new FormControl(this.credentials.key, Validators.required),
+    vanityurl: new FormControl(this.credentials.vanityurl, Validators.required)
   });
 
   constructor(private store: Store<{ credentials: SteamCredentials }>, private router: Router) {
   }
 
   getSteamApiKeyErrors() {
-    return this.form.controls.steamApiKey.errors;
+    return this.form.controls.key.errors;
   }
 
   getSteamAccountIdErrors() {
-    return this.form.controls.steamAccountId.errors;
+    return this.form.controls.vanityurl.errors;
   }
 
   isSteamApiKeyError() {

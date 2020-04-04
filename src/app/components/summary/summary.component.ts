@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { selectCredentials } from '../../store/steam/steam.selectors';
 import { Router } from '@angular/router';
 import { SteamService } from '../../services/steam.service';
+import { SetCredentialsAction, SetSteamIdsToCredentialsAction } from 'src/app/store/steam/steam.actions';
 
 @Component({
   selector: 'app-summary',
@@ -13,16 +14,23 @@ import { SteamService } from '../../services/steam.service';
 })
 export class SummaryComponent implements OnInit {
 
-  constructor(private router: Router, private service: SteamService) {
+  constructor(private store: Store<{ credentials: SteamCredentials }>, private router: Router, private service: SteamService) {
   }
 
   ngOnInit(): void {
     this.service.credentials.subscribe(value => {
-      if (!value || !value.steamAccountId || !value.steamApiKey) {
+      if (!value || !value.vanityurl || !value.key) {
         this.router.navigate(['']);
       }
     });
 
-    this.service.getPlayerSummaries();
+    this.service.getPlayerSteamId().then((steamid: string) => {
+      this.store.dispatch(new SetSteamIdsToCredentialsAction(steamid));
+
+      this.service.getPlayerSummaries().then(data => {
+        console.log(data);
+      });
+    });
+  
   }
 }

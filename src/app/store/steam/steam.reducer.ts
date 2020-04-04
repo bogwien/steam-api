@@ -11,6 +11,14 @@ export function reducer(state: State = initialState, action: Actions) {
         ...state,
         [credentials]: action.getCredentials()
       };
+    case types.setSteamIdsToCredentials:
+      const creds = state[credentials];
+      const steamids = action.getSteamIds();
+
+      return {
+        ...state,
+        [credentials]: {...creds, steamids}
+      };
     default:
       return state;
   }
