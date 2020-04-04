@@ -1,11 +1,9 @@
 import { State } from './steam.state';
 import { createSelector, createFeatureSelector } from '@ngrx/store';
-import { SteamCredentials } from '../../models/SteamCredentials';
-import { credentials, node } from './steam.nodes';
 
-export const selectSteamFeature = createFeatureSelector<State>(node);
+export const selectSteamFeature = createFeatureSelector<State>('steam');
 
-export const selectCredentials = createSelector(
+export const selectKey = createSelector(
   selectSteamFeature,
-  (state: State): SteamCredentials => state[credentials]
+  (state: State): string => state.key
 );

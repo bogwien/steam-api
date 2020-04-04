@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { State } from '../store/store.state';
-import { SteamCredentials } from '../models/SteamCredentials';
 import { Observable } from 'rxjs';
-import { selectCredentials } from '../store/steam/steam.selectors';
+import { selectKey } from '../store/steam/steam.selectors';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
@@ -11,18 +10,24 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class SteamService {
-  public credentials: Observable<SteamCredentials> = this.store.select(selectCredentials);
+  public key: Observable<string> = this.store.select(selectKey);
 
-  constructor(private store: Store<State>, public httpClient: HttpClient) { }
+  constructor(private store: Store<State>, public httpClient: HttpClient) {}
 
-  public async getPlayerSteamId(): Promise<string> {
-    let credentials: SteamCredentials;
-    this.credentials.subscribe((value: SteamCredentials) => credentials = value);
-    
-    return await this.loadPlayerSteamId(credentials);
+  private getKey(): string {
+    let key: string;
+    this.key.subscribe((value: string) => key = value);
+
+    return key;
   }
 
-  private async loadPlayerSteamId({ key, vanityurl  }: SteamCredentials): Promise<string> {
+  public async getPlayerSteamId(vanityurl: string): Promise<string> {
+    const key: string = this.getKey();
+    
+    return await this.loadPlayerSteamId(key, vanityurl);
+  }
+
+  private async loadPlayerSteamId(key: string, vanityurl: string): Promise<string> {
     const url = `${environment.api.host}/${environment.api.baseUri}/steam/player-steam-id`;
 
     const params = new HttpParams({fromObject: {key, vanityurl}});
@@ -32,14 +37,13 @@ export class SteamService {
     return result.data.steamid;
   }
 
-  public async getPlayerSummaries(): Promise<{players: Array<Object>}> {
-    let credentials: SteamCredentials;
-    this.credentials.subscribe((value: SteamCredentials) => credentials = value);
+  public async getPlayersSummaries(steamids: Array<string>): Promise<{players: Array<Object>}> {
+    const key: string = this.getKey();
 
-    return await this.loadPlayerSummaries(credentials);
+    return await this.loadPlayersSummaries(key, steamids.join(','));
   }
 
-  private async loadPlayerSummaries({ key, steamids }: SteamCredentials): Promise<{players: Array<Object>}> {
+  private async loadPlayersSummaries(key: string, steamids: string): Promise<{players: Array<Object>}> {
     const url = `${environment.api.host}/${environment.api.baseUri}/steam/player-summaries`;
 
     const params = new HttpParams({fromObject: {key, steamids}});

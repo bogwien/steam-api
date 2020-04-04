@@ -1,36 +1,50 @@
 import { Component, OnInit } from '@angular/core';
-import { SteamCredentials } from '../../models/SteamCredentials';
-import { Store, select } from '@ngrx/store';
-import { State } from '../../store/steam/steam.state';
-import { Observable } from 'rxjs';
-import { selectCredentials } from '../../store/steam/steam.selectors';
 import { Router } from '@angular/router';
 import { SteamService } from '../../services/steam.service';
-import { SetCredentialsAction, SetSteamIdsToCredentialsAction } from 'src/app/store/steam/steam.actions';
+import { Validators, FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-summary',
   templateUrl: './summary.component.html'
 })
 export class SummaryComponent implements OnInit {
+  username: string;
 
-  constructor(private store: Store<{ credentials: SteamCredentials }>, private router: Router, private service: SteamService) {
-  }
+  form: FormGroup = new FormGroup({
+    username: new FormControl(this.username, Validators.required),
+  });
+
+  constructor(private router: Router, private service: SteamService) {}
 
   ngOnInit(): void {
-    this.service.credentials.subscribe(value => {
-      if (!value || !value.vanityurl || !value.key) {
+    this.service.key.subscribe(value => {
+      if (!value) {
         this.router.navigate(['']);
       }
     });
+  }
 
-    this.service.getPlayerSteamId().then((steamid: string) => {
-      this.store.dispatch(new SetSteamIdsToCredentialsAction(steamid));
+  private getUsernameControl() {
+    return this.form.controls.username;
+  }
 
-      this.service.getPlayerSummaries().then(data => {
+  isUsernameError() {
+    return this.getUsernameControl().errors && this.getUsernameControl().errors.required;
+  }
+
+  onSubmit() {
+    if (this.form.invalid) {
+      return;
+    }
+
+    this.loadPlayer(this.getUsernameControl().value);
+  }
+
+  loadPlayer(username: string) {
+    this.service.getPlayerSteamId(username).then((steamid: string) => {
+      this.service.getPlayersSummaries([steamid]).then(data => {
         console.log(data);
       });
     });
-  
   }
 }

@@ -1,20 +1,11 @@
 <div class="container">
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form mt-5">
-    <fieldset class="form-group" [class.has-error]="isSteamApiKeyError()">
+    <fieldset class="form-group" [class.has-error]="isKeyError()">
       <label for="steam-api-key">Steam API Key</label>
       <input type="text" id="steam-api-key" formControlName="key" class="form-control" required />
 
-      <div *ngIf="getSteamApiKeyErrors() && getSteamApiKeyErrors().required" class="alert alert-danger mt-2">
+      <div *ngIf="isKeyError()" class="alert alert-danger mt-2">
         Steam API Key is required.
-      </div>
-    </fieldset>
-
-    <fieldset class="form-group" [class.has-error]="isSteamAccountIdError()">
-      <label for="steam-account-id">Steam Account Id</label>
-      <input type="text" id="steam-account-id" formControlName="vanityurl" class="form-control" required />
-
-      <div *ngIf="getSteamAccountIdErrors() && getSteamAccountIdErrors().required" class="alert alert-danger mt-2">
-        Steam Account Id is required.
       </div>
     </fieldset>
 

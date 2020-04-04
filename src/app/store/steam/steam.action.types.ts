@@ -1,2 +1,1 @@
-export const setCredentials = '[Steam] SetCredentials';
-export const setSteamIdsToCredentials = '[Steam] SetSteamIdCredentials';
+export const setKeyAction = '[Steam] SetKeyAction';
