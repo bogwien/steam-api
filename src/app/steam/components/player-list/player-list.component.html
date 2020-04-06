@@ -1,0 +1,19 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Avatar</th>
+      <th scope="col">Username</th>
+      <th scope="col">Name</th>
+      <th scope="col">Last Login</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let player of playerList" (click)="onPlayerClick(player)">
+      <td><img [attr.src]="player.avatar" alt="avatar"></td>
+      <td><a [attr.href]="player.profileurl" target="_blank">{{player.personaname}}</a></td>
+      <td>{{player.realname}}</td>
+      <td>{{player.lastlogoff * 1000 | date:'medium'}}</td>
+    </tr>
+  </tbody>
+</table>

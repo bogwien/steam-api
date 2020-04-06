@@ -1,0 +1,7 @@
+<div *ngIf="friends" class="container mt-5">
+  <h1>Friends <span *ngIf="user">of {{user.personaname}}</span></h1>
+
+  <section class="mt-5">
+    <app-player-list [playerList]="friends" (clicked)="onPlayerClick($event)"></app-player-list>
+  </section>
+</div>
