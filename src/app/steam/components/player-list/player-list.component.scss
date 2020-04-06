@@ -2,9 +2,11 @@
   table {
     width: 100%;
 
-    tbody {
-      tr {
-        cursor: pointer;
+    .mat-row {
+      cursor: pointer;
+
+      &:hover {
+        background-color: lightgrey;
       }
     }
   }

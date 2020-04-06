@@ -23,10 +23,6 @@ export class HomeComponent {
     return this.form.controls.key;
   }
 
-  isKeyError() {
-    return this.getKeyControl().errors && this.getKeyControl().errors.required;
-  }
-
   onSubmit() {
     if (this.form.invalid) {
       return;

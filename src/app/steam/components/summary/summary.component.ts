@@ -31,10 +31,6 @@ export class SummaryComponent implements OnInit {
     return this.form.controls.username;
   }
 
-  isUsernameError() {
-    return this.getUsernameControl().errors && this.getUsernameControl().errors.required;
-  }
-
   async onSubmit() {
     if (this.form.invalid) {
       return;
