@@ -6,7 +6,8 @@ import Player from '../../models/player';
 import { forkJoin } from 'rxjs';
 
 @Component({
-  templateUrl: './summary.component.html'
+  templateUrl: './summary.component.html',
+  styleUrls: ['./summary.component.scss']
 })
 export class SummaryComponent implements OnInit {
   username: string;

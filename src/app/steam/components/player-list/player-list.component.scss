@@ -1,7 +1,11 @@
-.player-list-table {
-  tbody {
-    tr {
-      cursor: pointer;
+.player-list {
+  table {
+    width: 100%;
+
+    tbody {
+      tr {
+        cursor: pointer;
+      }
     }
   }
 }

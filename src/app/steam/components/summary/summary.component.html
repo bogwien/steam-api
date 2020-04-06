@@ -1,15 +1,18 @@
-<div class="container">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form mt-5">
-      <fieldset class="form-group" [class.has-error]="isUsernameError()">
-        <label for="username">Username</label>
-        <input type="text" id="username" formControlName="username" class="form-control" placeholder="Username" required />
-  
-        <div *ngIf="isUsernameError()" class="alert alert-danger mt-2">
-          Username is required.
-        </div>
-      </fieldset>
-  
-      <button type="submit" class="btn btn-primary">Load</button>
+<div class="summary">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-control">
+        <mat-form-field>
+          <mat-label>Usernames</mat-label>
+    
+          <input type="text" formControlName="username" required matInput />
+    
+          <mat-error>At least one username is required.</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-control">
+        <button type="submit" mat-stroked-button>Load</button>
+      </div>
     </form>
 </div>
 

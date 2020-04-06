@@ -1,14 +1,17 @@
-<div class="container">
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form mt-5">
-    <fieldset class="form-group" [class.has-error]="isKeyError()">
-      <label for="steam-api-key">Steam API Key</label>
-      <input type="text" id="steam-api-key" formControlName="key" class="form-control" required />
+<div class="home">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-control">
+      <mat-form-field>
+        <mat-label>Steam API Key</mat-label>
+  
+        <input type="text" formControlName="key" id="steam-key" required matInput />
+  
+        <mat-error>Steam API Key is required.</mat-error>
+      </mat-form-field>
+    </div>
 
-      <div *ngIf="isKeyError()" class="alert alert-danger mt-2">
-        Steam API Key is required.
-      </div>
-    </fieldset>
-
-    <button type="submit" class="btn btn-primary">Apply</button>
+    <div class="form-control">
+      <button type="submit" mat-stroked-button>Apply</button>
+    </div>
   </form>
 </div>

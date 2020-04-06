@@ -1,19 +1,29 @@
-<table class="player-list-table table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">Avatar</th>
-      <th scope="col">Username</th>
-      <th scope="col">Name</th>
-      <th scope="col">Last Login</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <tr *ngFor="let player of playerList" (click)="onPlayerClick(player, $event)">
-      <td><img [attr.src]="player.avatar" alt="avatar"></td>
-      <td><a [attr.href]="player.profileurl" target="_blank">{{player.personaname}}</a></td>
-      <td>{{player.realname}}</td>
-      <td>{{player.lastlogoff * 1000 | date:'medium'}}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="player-list">
+  <table [dataSource]="dataSource" mat-table>
+    <ng-container matColumnDef="avatar">
+      <th mat-header-cell *matHeaderCellDef>Avatar</th>
+      <td mat-cell *matCellDef="let player">
+        <img [attr.src]="player.avatar" alt="avatar">
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="personaname">
+      <th mat-header-cell *matHeaderCellDef>Username</th>
+      <td mat-cell *matCellDef="let player">
+        <a [attr.href]="player.profileurl" target="_blank">{{player.personaname}}</a>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="realname">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let player">{{player.realname}}</td>
+    </ng-container>
+    <ng-container matColumnDef="lastlogoff">
+      <th mat-header-cell *matHeaderCellDef>Last Login</th>
+      <td mat-cell *matCellDef="let player">{{player.lastlogoff * 1000 | date:'medium'}}</td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onPlayerClick(row, $event)"></tr>
+  </table>
+  
+  <mat-paginator [length]="playerList.length" [pageSize]="10" showFirstLastButtons></mat-paginator>
+</div>

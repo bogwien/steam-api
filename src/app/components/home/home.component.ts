@@ -7,7 +7,8 @@ import { SetKeyAction } from '../../store/steam/steam.actions';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html'
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
   credentials = { key: null };
