@@ -4,27 +4,25 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './components/home/home.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './store/store.reducers';
-import { SummaryComponent } from './components/summary/summary.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { HttpClientModule } from '@angular/common/http';
+import { SteamModule } from './steam/steam.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    SummaryComponent
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule,
     NgbModule,
     StoreModule.forRoot(reducers, {
       runtimeChecks: {
@@ -34,7 +32,9 @@ import { HttpClientModule } from '@angular/common/http';
     }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     EffectsModule.forRoot([]),
-    StoreRouterConnectingModule.forRoot()
+    StoreRouterConnectingModule.forRoot(),
+    ReactiveFormsModule,
+    SteamModule
   ],
   providers: [],
   bootstrap: [AppComponent]

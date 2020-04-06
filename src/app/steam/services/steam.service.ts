@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { State } from '../store/store.state';
+import { State } from '../../store/store.state';
 import { Observable } from 'rxjs';
-import { selectKey } from '../store/steam/steam.selectors';
+import { selectKey } from '../../store/steam/steam.selectors';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 import Player from '../models/player';
 
 @Injectable({

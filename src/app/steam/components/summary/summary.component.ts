@@ -5,7 +5,6 @@ import { Validators, FormGroup, FormControl } from '@angular/forms';
 import Player from '../../models/player';
 
 @Component({
-  selector: 'app-summary',
   templateUrl: './summary.component.html'
 })
 export class SummaryComponent implements OnInit {
