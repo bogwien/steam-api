@@ -1,4 +1,4 @@
-<table class="table table-hover">
+<table class="player-list-table table table-hover">
   <thead>
     <tr>
       <th scope="col">Avatar</th>
@@ -9,7 +9,7 @@
   </thead>
 
   <tbody>
-    <tr *ngFor="let player of playerList" (click)="onPlayerClick(player)">
+    <tr *ngFor="let player of playerList" (click)="onPlayerClick(player, $event)">
       <td><img [attr.src]="player.avatar" alt="avatar"></td>
       <td><a [attr.href]="player.profileurl" target="_blank">{{player.personaname}}</a></td>
       <td>{{player.realname}}</td>
