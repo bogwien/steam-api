@@ -5,6 +5,7 @@ import Friend from '../../models/friend';
 import Player from '../../models/player';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import Ban from '../../models/ban';
+import Group from '../../models/group';
 
 @Component({
   templateUrl: './player-info.component.html',
@@ -14,6 +15,7 @@ export class PlayerInfoComponent implements OnInit {
   friendList: Friend[] = [];
   user: Player | null;
   bans: Ban[] = [];
+  groups: Group[] = [];
 
   constructor(private router: Router, private route: ActivatedRoute, private service: SteamService) { }
 
@@ -47,10 +49,18 @@ export class PlayerInfoComponent implements OnInit {
           this.bans = bansResult.data;
         });
       });
+
+      this.service.getUserGroupList(steamid).subscribe(groupsResult => {
+        this.groups = groupsResult.data.groups;
+      });
     });
   }
 
   onPlayerClick(player: Player) {
     this.router.navigate(['info', {steamid: player.steamid}]);
+  }
+
+  getGroupUrl(group: Group): string {
+    return `http://steamcommunity.com/gid/${group.gid}`;
   }
 }

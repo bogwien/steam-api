@@ -1,7 +1,16 @@
 <div *ngIf="friends.length" class="container mt-5">
-  <h1>Friends <span *ngIf="user">of {{user.personaname}}</span></h1>
+  <h1><span *ngIf="user">{{user.personaname}}'s</span> Info</h1>
 
   <section class="mt-5">
+    <h2>Friends</h2>
     <app-player-list [players]="friends" [bans]="bans" (clicked)="onPlayerClick($event)"></app-player-list>
+  </section>
+
+  <section class="mt-5">
+    <h2>Groups</h2>
+
+    <mat-list>
+      <a *ngFor="let group of groups" [attr.href]="getGroupUrl(group)" mat-list-item target="_blank">{{group.gid}}</a>
+    </mat-list>
   </section>
 </div>

@@ -15,7 +15,7 @@ export class PlayerListComponent implements OnInit, OnChanges {
   @Input() bans: Ban[] = [];
   @Output() clicked = new EventEmitter<ExtendedPlayer>();
 
-  displayedColumns: string[] = ['avatar', 'personaname', 'realname', 'lastlogoff'];
+  displayedColumns: string[] = ['avatar', 'personaname', 'realname', 'lastlogoff', 'ban'];
   dataSource = new MatTableDataSource<ExtendedPlayer>(this.getExtenedPlayers(this.players, this.bans));
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -37,7 +37,7 @@ export class PlayerListComponent implements OnInit, OnChanges {
     this.dataSource.paginator = this.paginator;
   }
 
-  getExtenedPlayers(players: Player[], bans: Ban[]): ExtendedPlayer[] {
+  private getExtenedPlayers(players: Player[], bans: Ban[]): ExtendedPlayer[] {
     return players.map((player: Player): ExtendedPlayer => {
       const ban: Ban = bans.find((ban: Ban): boolean => ban.SteamId === player.steamid);
 
@@ -45,7 +45,7 @@ export class PlayerListComponent implements OnInit, OnChanges {
     });
   }
 
-  getExtendedPlayer(player: Player, ban: Ban|null): ExtendedPlayer {
+  private getExtendedPlayer(player: Player, ban: Ban|null): ExtendedPlayer {
     return Object.assign({}, player, {ban});
   }
 
@@ -56,5 +56,13 @@ export class PlayerListComponent implements OnInit, OnChanges {
     }
 
     this.clicked.emit(player);
+  }
+
+  isPlayerBaned(ban: Ban): boolean {
+    return ban && (ban.CommunityBanned || ban.VACBanned);
+  }
+
+  getPlayerLastBanTooltip(ban: Ban): string {
+    return ban && ban.DaysSinceLastBan > 0 ? `Days since last ban ${ban.DaysSinceLastBan}` : null;
   }
 }

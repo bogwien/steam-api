@@ -8,6 +8,7 @@ import { environment } from '../../../environments/environment';
 import Player from '../models/player';
 import Friend from '../models/friend';
 import Ban from '../models/ban';
+import Group from '../models/group';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,13 @@ export class SteamService {
   getPlayerFriendList(steamid: string): Observable<{data: {friends: Friend[]}}> {
     return this.request(
       `${environment.api.host}/${environment.api.baseUri}/steam/player-friend-list`,
+      new HttpParams({fromObject: {key: this.getKey(), steamid}})
+    );
+  }
+
+  getUserGroupList(steamid: string): Observable<{data: {groups: Group[], success: boolean}}> {
+    return this.request(
+      `${environment.api.host}/${environment.api.baseUri}/steam/user-group-list`,
       new HttpParams({fromObject: {key: this.getKey(), steamid}})
     );
   }

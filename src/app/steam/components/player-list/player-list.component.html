@@ -20,6 +20,12 @@
       <th mat-header-cell *matHeaderCellDef>Last Login</th>
       <td mat-cell *matCellDef="let player">{{player.lastlogoff * 1000 | date:'medium'}}</td>
     </ng-container>
+    <ng-container matColumnDef="ban">
+      <th mat-header-cell *matHeaderCellDef>Ban</th>
+      <td mat-cell *matCellDef="let player">
+        <span [matTooltip]="getPlayerLastBanTooltip(player.ban)">{{isPlayerBaned(player.ban) ? 'Yes' : 'No'}}</span>
+      </td>
+    </ng-container>
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onPlayerClick(row, $event)"></tr>
