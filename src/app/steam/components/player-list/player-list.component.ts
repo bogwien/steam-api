@@ -28,10 +28,7 @@ export class PlayerListComponent implements OnInit, OnChanges {
     const currentPlayers = typeof players === 'undefined' ? this.players : players.currentValue;
     const currentBans = typeof bans === 'undefined' ? this.bans : bans.currentValue;
 
-    const data: ExtendedPlayer[] = this.getExtenedPlayers(
-      currentPlayers || [],
-      currentBans || []
-    );
+    const data: ExtendedPlayer[] = this.getExtenedPlayers(currentPlayers, currentBans);
 
     this.dataSource = new MatTableDataSource<ExtendedPlayer>(data);
     if (players) {
