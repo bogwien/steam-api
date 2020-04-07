@@ -7,6 +7,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import Player from '../models/player';
 import Friend from '../models/friend';
+import Ban from '../models/ban';
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +24,16 @@ export class SteamService {
     );
   }
 
-  getPlayersSummaries(steamids: string[]): Observable<{data: {players: Player[]}}> {
+  getPlayerSummaries(steamids: string[]): Observable<{data: {players: Player[]}}> {
     return this.request(
       `${environment.api.host}/${environment.api.baseUri}/steam/player-summaries`,
+      new HttpParams({fromObject: {key: this.getKey(), steamids: steamids.join(',')}})
+    );
+  }
+
+  getPlayerBans(steamids: string[]): Observable<{data: Ban[]}> {
+    return this.request(
+      `${environment.api.host}/${environment.api.baseUri}/steam/player-bans`,
       new HttpParams({fromObject: {key: this.getKey(), steamids: steamids.join(',')}})
     );
   }

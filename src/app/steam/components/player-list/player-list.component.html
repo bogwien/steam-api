@@ -25,5 +25,5 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onPlayerClick(row, $event)"></tr>
   </table>
   
-  <mat-paginator [length]="playerList.length" [pageSize]="10" showFirstLastButtons></mat-paginator>
+  <mat-paginator [length]="players.length" [pageSize]="10" showFirstLastButtons></mat-paginator>
 </div>

@@ -4,6 +4,7 @@ import { SteamService } from '../../services/steam.service';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 import Player from '../../models/player';
 import { forkJoin } from 'rxjs';
+import Ban from '../../models/ban';
 
 @Component({
   templateUrl: './summary.component.html',
@@ -11,7 +12,8 @@ import { forkJoin } from 'rxjs';
 })
 export class SummaryComponent implements OnInit {
   username: string;
-  players: Array<Player>;
+  players: Player[] = [];
+  bans: Ban[] = [];
 
   form: FormGroup = new FormGroup({
     username: new FormControl(this.username, Validators.required),
@@ -48,8 +50,14 @@ export class SummaryComponent implements OnInit {
       const steamIds: string[] = results.filter(data => data.data.success === 1).map(data => data.data.steamid);
       const allSteamIds: string[] = ids.concat(steamIds);
 
-      this.service.getPlayersSummaries(allSteamIds).subscribe(result => {
+      this.service.getPlayerSummaries(allSteamIds).subscribe(result => {
+        console.log('getPlayerSummaries');
         this.players = result.data.players;
+      });
+
+      this.service.getPlayerBans(allSteamIds).subscribe(result => {
+        console.log('getPlayerBans');
+        this.bans = result.data;
       });
     });
   }

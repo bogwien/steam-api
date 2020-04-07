@@ -16,10 +16,10 @@
     </form>
 </div>
 
-<div *ngIf="players" class="container mt-5">
+<div *ngIf="players.length" class="container mt-5">
   <h1>Users</h1>
 
   <section class="mt-5">
-    <app-player-list [playerList]="players" (clicked)="onPlayerClick($event)"></app-player-list>
+    <app-player-list [players]="players" [bans]="bans" (clicked)="onPlayerClick($event)"></app-player-list>
   </section>
 </div>
