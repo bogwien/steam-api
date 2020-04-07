@@ -11,12 +11,14 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatListModule } from '@angular/material/list';
+import { GameListComponent } from './components/game-list/game-list.component';
 
 @NgModule({
   declarations: [
     SummaryComponent,
     PlayerInfoComponent,
-    PlayerListComponent
+    PlayerListComponent,
+    GameListComponent
   ],
   imports: [
     CommonModule,

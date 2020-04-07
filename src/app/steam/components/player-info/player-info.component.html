@@ -1,16 +1,28 @@
 <div *ngIf="friends.length" class="container mt-5">
   <h1><span *ngIf="user">{{user.personaname}}'s</span> Info</h1>
 
-  <section class="mt-5">
+  <section class="mt-5 mb-5">
     <h2>Friends</h2>
     <app-player-list [players]="friends" [bans]="bans" (clicked)="onPlayerClick($event)"></app-player-list>
   </section>
 
-  <section class="mt-5">
+  <section class="mt-5 mb-5" *ngIf="groups.length">
     <h2>Groups</h2>
 
     <mat-list>
       <a *ngFor="let group of groups" [attr.href]="getGroupUrl(group)" mat-list-item target="_blank">{{group.gid}}</a>
     </mat-list>
+  </section>
+
+  <section class="mt-5 mb-5" *ngIf="ownedGames.length">
+    <h2>Owned Games</h2>
+
+    <app-game-list [games]="ownedGames" (clicked)="onGameClick($event)"></app-game-list>
+  </section>
+
+  <section class="mt-5 mb-5" *ngIf="playedGames.length">
+    <h2>Last Played Games</h2>
+
+    <app-game-list [games]="playedGames" (clicked)="onGameClick($event)"></app-game-list>
   </section>
 </div>

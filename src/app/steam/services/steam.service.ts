@@ -9,6 +9,7 @@ import Player from '../models/player';
 import Friend from '../models/friend';
 import Ban from '../models/ban';
 import Group from '../models/group';
+import Game from '../models/game';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,25 @@ export class SteamService {
     return this.request(
       `${environment.api.host}/${environment.api.baseUri}/steam/user-group-list`,
       new HttpParams({fromObject: {key: this.getKey(), steamid}})
+    );
+  }
+
+  getRecentlyPlayedGames(steamid: string, count: number = 0): Observable<{data: {total_count: number, games: Game[]|undefined}}> {
+    return this.request(
+      `${environment.api.host}/${environment.api.baseUri}/steam/recently-played-games`,
+      new HttpParams({fromObject: {key: this.getKey(), steamid, count: count.toString()}})
+    );
+  }
+  
+  getOwnedGames(steamid: string, includeAppInfo: boolean = true, includePlayedFreeGames: boolean = false): Observable<{data: {game_count: number, games: Game[]|undefined}}> {
+    return this.request(
+      `${environment.api.host}/${environment.api.baseUri}/steam/owned-games`,
+      new HttpParams({fromObject: {
+        key: this.getKey(),
+        steamid,
+        include_appinfo: includeAppInfo.toString(),
+        include_played_free_games: includePlayedFreeGames.toString()
+      }})
     );
   }
 

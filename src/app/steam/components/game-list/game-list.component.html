@@ -1,0 +1,27 @@
+<div class="game-list">
+  <table [dataSource]="dataSource" mat-table>
+    <ng-container matColumnDef="img_icon_url">
+      <th mat-header-cell *matHeaderCellDef>Icon</th>
+      <td mat-cell *matCellDef="let game">
+        <img [attr.src]="getIconUrl(game)" alt="icon">
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let game">{{game.name}}</td>
+    </ng-container>
+    <ng-container matColumnDef="playtime_forever">
+      <th mat-header-cell *matHeaderCellDef>Played Time(last 2 weeks)</th>
+      <td mat-cell *matCellDef="let game">
+        {{game.playtime_forever / 60 | number:'0.0-2'}}
+        <span *ngIf="game.playtime_2weeks">({{game.playtime_2weeks / 60 | number:'0.0-2'}})</span>
+        hours
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onGameClick(row)"></tr>
+  </table>
+  
+  <mat-paginator [length]="games.length" [pageSize]="10" showFirstLastButtons></mat-paginator>
+</div>

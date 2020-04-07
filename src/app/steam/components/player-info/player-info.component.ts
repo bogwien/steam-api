@@ -3,9 +3,9 @@ import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { SteamService } from '../../services/steam.service';
 import Friend from '../../models/friend';
 import Player from '../../models/player';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import Ban from '../../models/ban';
 import Group from '../../models/group';
+import Game from '../../models/game';
 
 @Component({
   templateUrl: './player-info.component.html',
@@ -16,10 +16,13 @@ export class PlayerInfoComponent implements OnInit {
   user: Player | null;
   bans: Ban[] = [];
   groups: Group[] = [];
+  playedGames: Game[] = [];
+  ownedGames: Game[] = [];
 
   constructor(private router: Router, private route: ActivatedRoute, private service: SteamService) { }
 
   ngOnInit() {
+    console.log('ngOnInit');
     this.service.key.subscribe(value => {
       if (!value) {
         this.router.navigate(['']);
@@ -53,11 +56,29 @@ export class PlayerInfoComponent implements OnInit {
       this.service.getUserGroupList(steamid).subscribe(groupsResult => {
         this.groups = groupsResult.data.groups;
       });
+
+      this.service.getRecentlyPlayedGames(steamid).subscribe(playedGamesResult => {
+        this.playedGames = [];
+        if (playedGamesResult.data.games && playedGamesResult.data.games.length) {
+          this.playedGames = playedGamesResult.data.games;
+        }
+      });
+
+      this.service.getOwnedGames(steamid).subscribe(ownedGamesResult => {
+        this.ownedGames = [];
+        if (ownedGamesResult.data.games && ownedGamesResult.data.games.length) {
+          this.ownedGames = ownedGamesResult.data.games;
+        }
+      });
     });
   }
 
   onPlayerClick(player: Player) {
     this.router.navigate(['info', {steamid: player.steamid}]);
+  }
+
+  onGameClick(game: Game) {
+    this.router.navigate(['user-statistics-for-game', {steamid: this.user.steamid, appid: game.appid}]);
   }
 
   getGroupUrl(group: Group): string {
