@@ -18,7 +18,7 @@ export class PlayerListComponent implements OnInit, OnChanges {
   displayedColumns: string[] = ['avatar', 'personaname', 'realname', 'lastlogoff'];
   dataSource = new MatTableDataSource<ExtendedPlayer>(this.getExtenedPlayers(this.players, this.bans));
 
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
@@ -34,6 +34,10 @@ export class PlayerListComponent implements OnInit, OnChanges {
     );
 
     this.dataSource = new MatTableDataSource<ExtendedPlayer>(data);
+    if (players) {
+      this.paginator.firstPage();
+    }
+    this.dataSource.paginator = this.paginator;
   }
 
   getExtenedPlayers(players: Player[], bans: Ban[]): ExtendedPlayer[] {

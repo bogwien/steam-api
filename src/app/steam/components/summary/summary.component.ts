@@ -51,12 +51,10 @@ export class SummaryComponent implements OnInit {
       const allSteamIds: string[] = ids.concat(steamIds);
 
       this.service.getPlayerSummaries(allSteamIds).subscribe(result => {
-        console.log('getPlayerSummaries');
         this.players = result.data.players;
       });
 
       this.service.getPlayerBans(allSteamIds).subscribe(result => {
-        console.log('getPlayerBans');
         this.bans = result.data;
       });
     });
