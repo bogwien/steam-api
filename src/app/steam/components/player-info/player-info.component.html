@@ -17,12 +17,12 @@
   <section class="mt-5 mb-5" *ngIf="ownedGames.length">
     <h2>Owned Games</h2>
 
-    <app-game-list [games]="ownedGames" (clicked)="onGameClick($event)"></app-game-list>
+    <app-game-list [games]="ownedGames"></app-game-list>
   </section>
 
   <section class="mt-5 mb-5" *ngIf="playedGames.length">
     <h2>Last Played Games</h2>
 
-    <app-game-list [games]="playedGames" (clicked)="onGameClick($event)"></app-game-list>
+    <app-game-list [games]="playedGames"></app-game-list>
   </section>
 </div>

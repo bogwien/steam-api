@@ -77,10 +77,6 @@ export class PlayerInfoComponent implements OnInit {
     this.router.navigate(['info', {steamid: player.steamid}]);
   }
 
-  onGameClick(game: Game) {
-    this.router.navigate(['user-statistics-for-game', {steamid: this.user.steamid, appid: game.appid}]);
-  }
-
   getGroupUrl(group: Group): string {
     return `http://steamcommunity.com/gid/${group.gid}`;
   }
